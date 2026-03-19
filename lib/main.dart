@@ -1,11 +1,13 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo/home_page.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // ✅ FIXED
   await Hive.initFlutter();
-
-  var box = await Hive.openBox('mybox');
+  await Hive.openBox('mybox');
 
   runApp(const MyApp());
 }

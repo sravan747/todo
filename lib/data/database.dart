@@ -1,4 +1,7 @@
+// ignore_for_file: camel_case_types
+
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class tododatabase {
   List todolist = [];
@@ -9,10 +12,11 @@ class tododatabase {
       ['Review This App', false],
       ['Share This App', false],
     ];
+    updatedatabase(); // 
   }
 
   void loaddata() {
-    todolist = _mybox.get('TODOLIST');
+    todolist = _mybox.get('TODOLIST') ?? []; // ✅ FIXED
   }
 
   void updatedatabase() {

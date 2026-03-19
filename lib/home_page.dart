@@ -1,10 +1,11 @@
- // ignore_for_file: avoid_single_cascade_in_expression_statements
+// ignore_for_file: avoid_single_cascade_in_expression_statements
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:todo/data/database.dart';
 import 'package:todo/utilities/dialogbox.dart';
 import 'package:todo/utilities/todolist.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,14 +17,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _controller = TextEditingController();
 
-  late Box _mybox; // ✅ CHANGED
+  late Box _mybox; // ✅ FIXED
 
   tododatabase db = tododatabase();
 
   @override
   void initState() {
     super.initState();
-    _mybox = Hive.box('mybox'); // ✅ CHANGED
+    _mybox = Hive.box('mybox'); // ✅ FIXED
 
     if (_mybox.get('TODOLIST') == null) {
       db.createinitial();
@@ -59,7 +60,6 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
-    // ❌ REMOVED db.updatedatabase();
   }
 
   void deletetask(int index) {
@@ -78,13 +78,11 @@ class _HomePageState extends State<HomePage> {
         title: Center(child: Text('To-do')),
         elevation: 0,
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: createnewtask,
         child: Icon(Icons.add),
         focusColor: Colors.yellow,
       ),
-
       body: ListView.builder(
         itemCount: db.todolist.length,
         itemBuilder: (context, index) {
@@ -92,7 +90,7 @@ class _HomePageState extends State<HomePage> {
             taskName: db.todolist[index][0],
             taskcompleted: db.todolist[index][1],
             onChanged: (value) => checkboxchanged(value, index),
-            deletefunction: (context) => deletetask(index), // ✅ CHANGED
+            deletefunction: (context) => deletetask(index), // ✅ FIXED
           );
         },
       ),
